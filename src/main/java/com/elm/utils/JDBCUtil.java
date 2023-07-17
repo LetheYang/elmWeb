@@ -25,7 +25,7 @@ public class JDBCUtil {
     private static String url = properties.getProperty("jdbc.url");
     private static String userName = properties.getProperty("jdbc.userName");
     private static String password = properties.getProperty("jdbc.password");
-    private static final ThreadLocal<Connection> TL = new ThreadLocal<Connection>();
+    private static final ThreadLocal<Connection> TL = new ThreadLocal<>();
 
     static {
         try {

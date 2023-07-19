@@ -23,7 +23,7 @@ public class OrdersDaoImpl implements OrdersDao {
         ResultSet resultSet = null;
         List<Orders> ordersList = new ArrayList<>();
         try {
-            preparedStatement = connection.prepareStatement("SELECT  * FROM orders WHERE userId = ? ");
+            preparedStatement = connection.prepareStatement("SELECT  * FROM orders WHERE userId = ? ORDER BY orderDate DESC ");
             preparedStatement.setInt(1, userId);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

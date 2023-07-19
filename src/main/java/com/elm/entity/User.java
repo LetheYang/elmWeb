@@ -2,6 +2,9 @@ package com.elm.entity;
 
 import lombok.Data;
 
+/**
+ * @author akemihomurasama
+ */
 @Data
 public class User {
     private Integer id;

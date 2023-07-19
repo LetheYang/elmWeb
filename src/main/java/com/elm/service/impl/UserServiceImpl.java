@@ -28,4 +28,21 @@ public class UserServiceImpl implements UserService {
             JDBCUtil.close();
         }
     }
+
+    /**
+     * 用户注册
+     *
+     * @param user 用户信息
+     * @return 注册结果
+     */
+    @Override
+    public int userRegister(User user){
+        try {
+            return userDao.userRegister(user);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            JDBCUtil.close();
+        }
+    }
 }

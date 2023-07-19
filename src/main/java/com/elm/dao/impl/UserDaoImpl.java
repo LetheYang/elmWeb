@@ -3,6 +3,7 @@ package com.elm.dao.impl;
 import com.elm.dao.UserDao;
 import com.elm.entity.User;
 import com.elm.utils.JDBCUtil;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,15 +20,15 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User userLogin(String userId, String password) throws SQLException {
-        Connection connection = null;
+        Connection connection = JDBCUtil.getConnection();
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         User user = null;
         try {
-            connection = JDBCUtil.getConnection();
             preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE userId=? AND password =?");
             preparedStatement.setString(1, userId);
             preparedStatement.setString(2, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 user = new User();
                 user.setUserId(resultSet.getString("userId"));
@@ -39,8 +40,30 @@ public class UserDaoImpl implements UserDao {
             }
             return user;
         } finally {
-            JDBCUtil.close(connection, preparedStatement);
+            JDBCUtil.close(resultSet, preparedStatement);
         }
 
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param user 用户信息
+     * @return 注册结果
+     */
+    @Override
+    public int userRegister(User user) throws SQLException {
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO user (userId,password,userName,userSex,delTag) values (?,?,?,?,1)");
+            preparedStatement.setInt(1, NumberUtils.toInt(user.getUserId()));
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getUserName());
+            preparedStatement.setInt(4, user.getUserSex());
+            return preparedStatement.executeUpdate();
+        } finally {
+            JDBCUtil.close(connection, preparedStatement);
+        }
     }
 }

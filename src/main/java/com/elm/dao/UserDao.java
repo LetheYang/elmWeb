@@ -13,4 +13,11 @@ public interface UserDao {
      * @return 用户id
      */
     User userLogin(String userId, String password) throws SQLException;
+
+    /**
+     * 用户注册
+     * @param user 用户信息
+     * @return 注册结果
+     */
+    int userRegister(User user) throws SQLException;
 }
